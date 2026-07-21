@@ -29,8 +29,8 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
-      - name: Build APK (Flavored Debug)
-        run: ./gradlew assembleFossDebug --stacktrace --no-daemon || ./gradlew assembleGplayDebug --stacktrace --no-daemon || ./gradlew assemble --stacktrace --no-daemon
+      - name: Build APK (Target App Module)
+        run: ./gradlew :app:assembleDebug --stacktrace --no-daemon
 
       - name: List Generated APKs
         run: |

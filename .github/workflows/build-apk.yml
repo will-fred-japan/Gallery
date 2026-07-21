@@ -29,11 +29,15 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace --no-daemon
+      - name: Build APK (Flavored Debug)
+        run: ./gradlew assembleFossDebug --stacktrace --no-daemon || ./gradlew assembleGplayDebug --stacktrace --no-daemon || ./gradlew assemble --stacktrace --no-daemon
+
+      - name: List Generated APKs
+        run: |
+          find . -name "*.apk"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Gallery-Debug-APK
-          path: '**/build/outputs/apk/**/*.apk'
+          path: '**/*.apk'

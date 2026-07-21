@@ -18,6 +18,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Regenerate Gradle Wrapper
+        run: |
+          sudo apt-get update && sudo apt-get install -y gradle
+          gradle wrapper
+
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 

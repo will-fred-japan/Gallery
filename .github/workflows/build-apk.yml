@@ -18,9 +18,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Fix Corrupted Gradle Wrapper JAR
-        run: |
-          curl -sSL -o gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Create Dummy local.properties
         run: |
@@ -29,12 +28,8 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
-      - name: Build APK (Target App Module)
-        run: ./gradlew :app:assembleDebug --stacktrace --no-daemon
-
-      - name: List Generated APKs
-        run: |
-          find . -name "*.apk"
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4

@@ -18,21 +18,24 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Create Dummy local.properties
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+      - name: Setup Gradle Runtime
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Generate Fresh Wrapper
+        run: gradle wrapper --gradle-version 8.7
 
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace --no-daemon
+        run: ./gradlew :app:assembleFossDebug --stacktrace --no-daemon
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Gallery-Debug-APK
-          path: '**/*.apk'
+          path: 'app/build/outputs/apk/**/*.apk'
